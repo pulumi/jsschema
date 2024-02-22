@@ -2,7 +2,6 @@ package schema
 
 import (
 	"errors"
-	"regexp"
 	"sync"
 
 	"github.com/lestrrat-go/jsref"
@@ -106,9 +105,9 @@ type Schema struct {
 	ExclusiveMaximum Bool   `json:"exclusiveMaximum,omitempty"`
 
 	// StringValidation
-	MaxLength Integer        `json:"maxLength,omitempty"`
-	MinLength Integer        `json:"minLength,omitempty"`
-	Pattern   *regexp.Regexp `json:"pattern,omitempty"`
+	MaxLength Integer `json:"maxLength,omitempty"`
+	MinLength Integer `json:"minLength,omitempty"`
+	Pattern   string  `json:"pattern,omitempty"`
 
 	// ArrayValidations
 	AdditionalItems *AdditionalItems

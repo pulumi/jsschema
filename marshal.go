@@ -488,7 +488,7 @@ func (s *Schema) Extract(m map[string]interface{}) error {
 		return errors.Wrap(err, "failed to extract 'items'")
 	}
 
-	if err = extractRegexp(&s.Pattern, m, "pattern"); err != nil {
+	if err = extractString(&s.Pattern, m, "pattern"); err != nil {
 		return errors.Wrap(err, "failed to extract 'patterns'")
 	}
 
@@ -729,8 +729,8 @@ func (s *Schema) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	if rx := s.Pattern; rx != nil {
-		placeString(m, "pattern", rx.String())
+	if rx := s.Pattern; rx != "" {
+		placeString(m, "pattern", rx)
 	}
 	placeInteger(m, "maxLength", s.MaxLength)
 	placeInteger(m, "minLength", s.MinLength)
