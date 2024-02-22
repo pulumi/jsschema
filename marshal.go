@@ -531,19 +531,19 @@ func (s *Schema) Extract(m map[string]interface{}) error {
 		return errors.Wrap(err, "failed to extract 'patterns'")
 	}
 
-	if extractInt(&s.MinLength, m, "minLength"); err != nil {
+	if err = extractInt(&s.MinLength, m, "minLength"); err != nil {
 		return errors.Wrap(err, "failed to extract 'minLength'")
 	}
 
-	if extractInt(&s.MaxLength, m, "maxLength"); err != nil {
+	if err = extractInt(&s.MaxLength, m, "maxLength"); err != nil {
 		return errors.Wrap(err, "failed to extract 'maxLength'")
 	}
 
-	if extractInt(&s.MinItems, m, "minItems"); err != nil {
+	if err = extractInt(&s.MinItems, m, "minItems"); err != nil {
 		return errors.Wrap(err, "failed to extract 'minItems'")
 	}
 
-	if extractInt(&s.MaxItems, m, "maxItems"); err != nil {
+	if err = extractInt(&s.MaxItems, m, "maxItems"); err != nil {
 		return errors.Wrap(err, "failed to extract 'maxItems'")
 	}
 
