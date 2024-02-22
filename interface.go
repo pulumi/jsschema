@@ -20,6 +20,7 @@ const (
 // ErrExpectedArrayOfString is returned when we encounter
 // something other than array of strings
 var ErrExpectedArrayOfString = errors.New("invalid value: expected array of string")
+
 // ErrInvalidStringArray is the same as ErrExpectedArrayOfString.
 // This is here only for backwards compatibility
 var ErrInvalidStringArray = ErrExpectedArrayOfString
@@ -117,13 +118,13 @@ type Schema struct {
 	UniqueItems     Bool
 
 	// ObjectValidations
-	MaxProperties        Integer                    `json:"maxProperties,omitempty"`
-	MinProperties        Integer                    `json:"minProperties,omitempty"`
-	Required             []string                   `json:"required,omitempty"`
-	Dependencies         DependencyMap              `json:"dependencies,omitempty"`
-	Properties           map[string]*Schema         `json:"properties,omitempty"`
-	AdditionalProperties *AdditionalProperties      `json:"additionalProperties,omitempty"`
-	PatternProperties    map[*regexp.Regexp]*Schema `json:"patternProperties,omitempty"`
+	MaxProperties        Integer               `json:"maxProperties,omitempty"`
+	MinProperties        Integer               `json:"minProperties,omitempty"`
+	Required             []string              `json:"required,omitempty"`
+	Dependencies         DependencyMap         `json:"dependencies,omitempty"`
+	Properties           map[string]*Schema    `json:"properties,omitempty"`
+	AdditionalProperties *AdditionalProperties `json:"additionalProperties,omitempty"`
+	PatternProperties    map[string]*Schema    `json:"patternProperties,omitempty"`
 
 	Enum   []interface{}          `json:"enum,omitempty"`
 	AllOf  SchemaList             `json:"allOf,omitempty"`

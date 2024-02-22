@@ -295,45 +295,6 @@ func extractSchemaMap(m map[string]interface{}, name string) (map[string]*Schema
 	return r, nil
 }
 
-func extractRegexpToSchemaMap(m map[string]interface{}, name string) (map[*regexp.Regexp]*Schema, error) {
-	v, ok := m[name]
-	if !ok {
-		return nil, nil
-	}
-
-	val, ok := v.(map[string]interface{})
-	if !ok {
-		return nil, errors.Wrap(
-			errInvalidType("map[string]interface{}", v),
-			"failed to extract regexp to schema map",
-		)
-	}
-
-	r := make(map[*regexp.Regexp]*Schema)
-	for k, data := range val {
-		// data better be a map
-		m, ok := data.(map[string]interface{})
-		if !ok {
-			return nil, errors.Wrap(
-				errInvalidType("map[string]interface{}", data),
-				"failed to extract regexp to schema map",
-			)
-		}
-		s := New()
-		if err := s.Extract(m); err != nil {
-			return nil, errors.Wrap(err, "failed to extract schema within schema map")
-		}
-
-		rx, err := regexp.Compile(k)
-		if err != nil {
-			return nil, errors.Wrap(err, "failed to compile regular expression for regexp to schema map")
-		}
-
-		r[rx] = s
-	}
-	return r, nil
-}
-
 func extractItems(res **ItemSpec, m map[string]interface{}, name string) error {
 	v, ok := m[name]
 	if !ok {
@@ -625,7 +586,7 @@ func (s *Schema) Extract(m map[string]interface{}) error {
 		}
 	}
 
-	if s.PatternProperties, err = extractRegexpToSchemaMap(m, "patternProperties"); err != nil {
+	if s.PatternProperties, err = extractSchemaMap(m, "patternProperties"); err != nil {
 		return errors.Wrap(err, "failed to extract 'patternProperties'")
 	}
 
@@ -794,7 +755,7 @@ func (s *Schema) MarshalJSON() ([]byte, error) {
 	if len(s.PatternProperties) > 0 {
 		rxm := make(map[string]*Schema)
 		for rx, rxs := range s.PatternProperties {
-			rxm[rx.String()] = rxs
+			rxm[rx] = rxs
 		}
 		placeSchemaMap(m, "patternProperties", rxm)
 	}
